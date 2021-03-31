@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Player/blood.gd" type="Script" id=1]
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0.0253165, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3( 0, 1, 0 )
+spread = 90.0
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+scale_random = 1.0
+scale_curve = SubResource( 5 )
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_color = Color( 0.521569, 0, 0, 1 )
+
+[sub_resource type="SphereMesh" id=7]
+material = SubResource( 6 )
+radius = 0.05
+height = 0.1
+
+[node name="Blood" type="Particles"]
+emitting = false
+amount = 40
+one_shot = true
+explosiveness = 0.9
+randomness = 1.0
+local_coords = false
+process_material = SubResource( 2 )
+draw_pass_1 = SubResource( 7 )
+script = ExtResource( 1 )

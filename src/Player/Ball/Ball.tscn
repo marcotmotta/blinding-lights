@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Player/Ball/ball.gd" type="Script" id=1]
+[ext_resource path="res://Components/RigidBodyPhysics.tres" type="PhysicsMaterial" id=2]
+[ext_resource path="res://Player/Ball/pop.wav" type="AudioStream" id=3]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.75
+height = 1.5
+
+[sub_resource type="SpatialMaterial" id=2]
+
+[sub_resource type="ConvexPolygonShape" id=3]
+points = PoolVector3Array( -0.733012, 0.137455, 0.0694558, -0.707146, -0.136898, -0.204619, -0.683734, 0.136794, -0.272931, -0.683379, -0.228015, 0.205956, -0.659862, 0.0910587, 0.342484, -0.637695, 0.387536, -0.0674794, -0.635044, -0.340549, -0.203472, -0.634638, 0.340331, 0.204942, -0.567255, 0.113589, -0.47633, -0.567112, -0.181582, 0.455041, -0.454529, -0.591869, 0.0689719, -0.454106, -0.181813, -0.567721, -0.452412, -0.543833, -0.248333, -0.452086, 0.543442, 0.249753, -0.428671, 0.361552, -0.496422, -0.406883, -0.543518, 0.317746, -0.406563, 0.384602, 0.498528, -0.386916, 0.0455795, 0.639341, -0.338399, -0.316467, 0.588687, -0.294351, 0.658308, -0.203419, -0.24821, 0.452553, -0.542349, -0.227739, 0.0913405, -0.70759, -0.181165, 0.682128, 0.250828, -0.136702, -0.733777, -0.0678658, -0.113061, -0.500861, -0.545711, -0.11289, -0.50011, 0.546491, -0.0903326, -0.661081, -0.341094, -0.090333, 0.661085, -0.341096, -0.0678892, 0.137495, -0.733082, -0.0677468, 0.228827, 0.710221, -0.0676452, -0.297062, -0.684663, -0.0675197, -0.684206, 0.297318, -0.0447118, 0.455314, 0.592765, 0.023667, -0.137607, 0.735278, 0.0690919, 0.455, -0.590757, 0.138347, 0.73325, 0.0694166, 0.182907, -0.386813, 0.615167, 0.183016, -0.546541, 0.479005, 0.183614, -0.708212, 0.160677, 0.183613, 0.708207, 0.160676, 0.183699, -0.708539, -0.159151, 0.227931, 0.363253, 0.613905, 0.229176, -0.0912752, -0.707083, 0.249813, -0.543466, -0.452017, 0.250773, 0.590989, 0.38715, 0.273792, 0.659756, -0.226673, 0.273921, 0.22758, -0.659267, 0.34022, -0.316673, -0.587469, 0.342874, -0.0682871, 0.662099, 0.387558, -0.614159, 0.182668, 0.453468, -0.54318, -0.248034, 0.45675, 0.592676, 0.0463575, 0.475139, -0.361203, 0.452409, 0.475568, 0.452017, -0.360729, 0.543184, 0.316223, 0.407473, 0.570112, -0.0910151, -0.477386, 0.61202, -0.316825, -0.293475, 0.616029, -0.41012, 0.114572, 0.639511, 0.136748, -0.364004, 0.66215, 0.068279, 0.342766, 0.685906, 0.29685, -0.0448362, 0.686406, -0.159915, 0.252197, 0.710234, -0.228786, -0.0677212, 0.735199, 0.045855, -0.136765 )
+
+[sub_resource type="Curve" id=13]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.449367, 0.302273 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 13 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+emission_shape = 1
+emission_sphere_radius = 0.03
+direction = Vector3( 0, 1, 0 )
+spread = 20.0
+gravity = Vector3( 0, 3, 0 )
+initial_velocity = 1.0
+scale = 1.5
+scale_random = 1.0
+scale_curve = SubResource( 5 )
+
+[sub_resource type="SpatialMaterial" id=7]
+
+[sub_resource type="SphereMesh" id=8]
+material = SubResource( 7 )
+radius = 0.05
+height = 0.1
+
+[node name="Ball" type="RigidBody"]
+physics_material_override = ExtResource( 2 )
+gravity_scale = 0.4
+contacts_reported = 1
+contact_monitor = true
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+visible = false
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="OmniLight" type="OmniLight" parent="."]
+omni_range = 4.0
+
+[node name="Pop" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 3 )
+max_db = 0.0
+max_distance = 10.0
+
+[node name="Particles" type="Particles" parent="."]
+amount = 35
+lifetime = 0.3
+preprocess = 8.0
+local_coords = false
+process_material = SubResource( 6 )
+draw_pass_1 = SubResource( 8 )
+__meta__ = {
+"_editor_description_": ""
+}
+[connection signal="body_entered" from="." to="." method="_on_Ball_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
